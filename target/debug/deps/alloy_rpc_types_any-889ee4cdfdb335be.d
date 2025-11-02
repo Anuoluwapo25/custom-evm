@@ -1,0 +1,9 @@
+/Users/macintoshhd/Downloads/toy-evm/target/debug/deps/liballoy_rpc_types_any-889ee4cdfdb335be.rmeta: /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/lib.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/transaction/mod.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/transaction/receipt.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/block.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/../README.md
+
+/Users/macintoshhd/Downloads/toy-evm/target/debug/deps/alloy_rpc_types_any-889ee4cdfdb335be.d: /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/lib.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/transaction/mod.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/transaction/receipt.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/block.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/../README.md
+
+/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/lib.rs:
+/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/transaction/mod.rs:
+/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/transaction/receipt.rs:
+/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/block.rs:
+/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-rpc-types-any-1.0.41/src/../README.md:
