@@ -1,9 +1,0 @@
-/Users/macintoshhd/Downloads/toy-evm/target/debug/deps/liballoy_tx_macros-7b56f3818aed7cc0.dylib: /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/lib.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/expand.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/parse.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/serde.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/../README.md
-
-/Users/macintoshhd/Downloads/toy-evm/target/debug/deps/alloy_tx_macros-7b56f3818aed7cc0.d: /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/lib.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/expand.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/parse.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/serde.rs /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/../README.md
-
-/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/lib.rs:
-/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/expand.rs:
-/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/parse.rs:
-/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/serde.rs:
-/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/alloy-tx-macros-1.0.41/src/../README.md:

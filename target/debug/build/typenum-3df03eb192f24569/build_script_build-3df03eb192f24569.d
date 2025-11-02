@@ -1,5 +1,0 @@
-/Users/macintoshhd/Downloads/toy-evm/target/debug/build/typenum-3df03eb192f24569/build_script_build-3df03eb192f24569: /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/typenum-1.19.0/build.rs
-
-/Users/macintoshhd/Downloads/toy-evm/target/debug/build/typenum-3df03eb192f24569/build_script_build-3df03eb192f24569.d: /Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/typenum-1.19.0/build.rs
-
-/Users/macintoshhd/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/typenum-1.19.0/build.rs:
