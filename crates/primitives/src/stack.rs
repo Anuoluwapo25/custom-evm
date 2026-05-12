@@ -30,4 +30,23 @@ impl Stack {
     pub fn pop(&mut self) -> Option<U256> {
         return self.data.pop();
     }
+
+    /// Peek at the item `depth` from the top (0 = top).
+    pub fn peek(&self, depth: usize) -> Option<U256> {
+        let len = self.data.len();
+        if depth >= len {
+            return None;
+        }
+        Some(self.data[len - 1 - depth])
+    }
+
+    /// Swap the top item with the item `depth` positions from the top (1 = second item).
+    pub fn swap_top(&mut self, depth: usize) -> Result<(), EvmErrors> {
+        let len = self.data.len();
+        if depth == 0 || depth >= len {
+            return Err(EvmErrors::StackUnderflow);
+        }
+        self.data.swap(len - 1, len - 1 - depth);
+        Ok(())
+    }
 }

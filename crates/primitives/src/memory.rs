@@ -19,26 +19,52 @@ impl Memory {
         Self { data }
     }
 
-    /// Store 32bytes (word) to memory given an offset
+    /// Store 32 bytes (word) at offset, expanding memory if needed.
     pub fn store_word(&mut self, offset: usize, word: U256) {
-        let word_as_bytes = word.to_be_bytes::<32>(); // converts U256 to bytes
-        self.data[offset..offset + 32].copy_from_slice(&word_as_bytes); // copies bytes to memory
+        let end = offset + 32;
+        if end > self.data.len() {
+            self.data.resize(end, 0);
+        }
+        let word_as_bytes = word.to_be_bytes::<32>();
+        self.data[offset..end].copy_from_slice(&word_as_bytes);
     }
 
-    /// Load 32bytes (word) from memory given an offset
+    /// Load 32 bytes (word) from offset; zero-pads if out of bounds.
     pub fn load_word(&self, offset: usize) -> U256 {
-        let word_as_bytes: [u8; 32] = self.data[offset..offset + 32].try_into().unwrap();
-        U256::from_be_bytes(word_as_bytes)
+        let end = offset + 32;
+        if end <= self.data.len() {
+            let word_as_bytes: [u8; 32] = self.data[offset..end].try_into().unwrap();
+            U256::from_be_bytes(word_as_bytes)
+        } else {
+            let mut buf = [0u8; 32];
+            let available = self.data.len().saturating_sub(offset);
+            if available > 0 {
+                buf[..available].copy_from_slice(&self.data[offset..offset + available]);
+            }
+            U256::from_be_bytes(buf)
+        }
     }
 
-    /// Function store a single bytes to memory given and offset
+    /// Returns current length of memory in bytes.
+    pub fn len(&self) -> usize {
+        self.data.len()
+    }
+
+    /// Store a single byte at offset, expanding memory if needed.
     pub fn store_byte(&mut self, offset: usize, byte: u8) {
+        if offset >= self.data.len() {
+            self.data.resize(offset + 1, 0);
+        }
         self.data[offset] = byte;
     }
 
-    /// Function reads a single byte from memory given an offset
+    /// Load a single byte from memory; returns 0 if out of bounds.
     pub fn load_byte(&self, offset: usize) -> u8 {
-        self.data[offset]
+        if offset < self.data.len() {
+            self.data[offset]
+        } else {
+            0
+        }
     }
 }
 
