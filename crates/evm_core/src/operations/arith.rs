@@ -9,147 +9,125 @@ pub fn stop(evm: &mut Evm) {
 pub fn add(evm: &mut Evm) {
     let a = evm.stack.pop().unwrap();
     let b = evm.stack.pop().unwrap();
-    evm.stack.push(a + b).unwrap();
+    evm.stack.push(a.wrapping_add(b)).unwrap();
+    evm.pc += 1;
 }
 
 pub fn mul(evm: &mut Evm) {
     let a = evm.stack.pop().unwrap();
     let b = evm.stack.pop().unwrap();
-    evm.stack.push(a * b).unwrap();
+    evm.stack.push(a.wrapping_mul(b)).unwrap();
+    evm.pc += 1;
 }
 
 pub fn sub(evm: &mut Evm) {
     let a = evm.stack.pop().unwrap();
     let b = evm.stack.pop().unwrap();
-    evm.stack.push(a - b).unwrap();
+    evm.stack.push(a.wrapping_sub(b)).unwrap();
+    evm.pc += 1;
 }
 
 pub fn div(evm: &mut Evm) {
     let a = evm.stack.pop().unwrap();
     let b = evm.stack.pop().unwrap();
-
     if b == U256::ZERO {
         evm.stack.push(U256::ZERO).unwrap();
     } else {
         evm.stack.push(a / b).unwrap();
     }
+    evm.pc += 1;
 }
 
 pub fn sdiv(evm: &mut Evm) {
     let a = evm.stack.pop().unwrap();
     let b = evm.stack.pop().unwrap();
-
     let a_int = I256::from_limbs(*a.as_limbs());
     let b_int = I256::from_limbs(*b.as_limbs());
-
     if b_int == I256::ZERO {
         evm.stack.push(U256::ZERO).unwrap();
     } else {
-        let result = a_int / b_int;
-        let result_unsigned = U256::from_limbs(*result.as_limbs());
-        evm.stack.push(result_unsigned).unwrap();
+        let result = a_int.wrapping_div(b_int);
+        evm.stack.push(U256::from_limbs(*result.as_limbs())).unwrap();
     }
+    evm.pc += 1;
 }
 
 pub fn modulo(evm: &mut Evm) {
     let a = evm.stack.pop().unwrap();
     let b = evm.stack.pop().unwrap();
-
     if b == U256::ZERO {
         evm.stack.push(U256::ZERO).unwrap();
     } else {
         evm.stack.push(a % b).unwrap();
     }
+    evm.pc += 1;
 }
 
 pub fn smod(evm: &mut Evm) {
     let a = evm.stack.pop().unwrap();
     let b = evm.stack.pop().unwrap();
-
     let a_int = I256::from_limbs(*a.as_limbs());
     let b_int = I256::from_limbs(*b.as_limbs());
-
     if b_int == I256::ZERO {
         evm.stack.push(U256::ZERO).unwrap();
     } else {
-        let result = a_int % b_int;
-        let result_unsigned = U256::from_limbs(*result.as_limbs());
-        evm.stack.push(result_unsigned).unwrap();
+        let result = a_int.wrapping_rem(b_int);
+        evm.stack.push(U256::from_limbs(*result.as_limbs())).unwrap();
     }
+    evm.pc += 1;
 }
 
 pub fn addmod(evm: &mut Evm) {
     let a = evm.stack.pop().unwrap();
     let b = evm.stack.pop().unwrap();
-    let c = evm.stack.pop().unwrap();
-
-    if c == U256::ZERO {
+    let n = evm.stack.pop().unwrap();
+    if n == U256::ZERO {
         evm.stack.push(U256::ZERO).unwrap();
     } else {
-        let result = (a + b) % c;
-        evm.stack.push(result).unwrap();
+        evm.stack.push(a.add_mod(b, n)).unwrap();
     }
+    evm.pc += 1;
 }
 
 pub fn mulmod(evm: &mut Evm) {
     let a = evm.stack.pop().unwrap();
     let b = evm.stack.pop().unwrap();
-    let c = evm.stack.pop().unwrap();
-
-    if c == U256::ZERO {
+    let n = evm.stack.pop().unwrap();
+    if n == U256::ZERO {
         evm.stack.push(U256::ZERO).unwrap();
     } else {
-        let result = (a * b) % c;
-        evm.stack.push(result).unwrap();
+        evm.stack.push(a.mul_mod(b, n)).unwrap();
     }
+    evm.pc += 1;
 }
 
 pub fn exp(evm: &mut Evm) {
     let a = evm.stack.pop().unwrap();
     let b = evm.stack.pop().unwrap();
-    
     evm.stack.push(a.pow(b)).unwrap();
+    evm.pc += 1;
 }
 
 pub fn signextend(evm: &mut Evm) {
-    let a = evm.stack.pop().unwrap();
-    let b = evm.stack.pop().unwrap();
+    let b = evm.stack.pop().unwrap(); // byte index (0 = least significant byte)
+    let x = evm.stack.pop().unwrap(); // value to sign-extend
 
-    if b == U256::ZERO {
-        evm.stack.push(U256::ZERO).unwrap();
-    } else {
-        let result = if a.to_be_bytes::<32>()[0] == 0 {
-            a
+    if b < U256::from(31u8) {
+        let byte_index = b.as_limbs()[0] as usize;
+        let bit_index = byte_index * 8 + 7;
+        let x_bytes = x.to_be_bytes::<32>();
+        // In big-endian layout, byte_index 0 is the least significant byte at position 31
+        let sign_byte = x_bytes[31 - byte_index];
+        let sign_bit = (sign_byte >> 7) & 1;
+        if sign_bit == 1 {
+            let mask = U256::MAX << U256::from(bit_index + 1);
+            evm.stack.push(x | mask).unwrap();
         } else {
-            a & U256::MAX // << (256 - b.as_u64()) // TODO: Implement sign extension completely
-        };
-        evm.stack.push(result).unwrap();
-    }
-}
-
-
-pub fn and(evm: &mut Evm) {
-    let a = evm.stack.pop().unwrap();
-    let b = evm.stack.pop().unwrap();
-    
-    evm.stack.push(a & b).unwrap();
-}
-
-pub fn byte(evm: &mut Evm) {
-    let a = evm.stack.pop().unwrap();
-    let b = evm.stack.pop().unwrap();
-    
-    if a.as_limbs()[0] > 32 {
-        evm.stack.push(U256::ZERO).unwrap();
+            let mask = (U256::from(1u8) << U256::from(bit_index + 1)) - U256::from(1u8);
+            evm.stack.push(x & mask).unwrap();
+        }
     } else {
-        let retrived = b.to_be_bytes::<32>()[a.as_limbs()[0] as usize];
-        evm.stack.push(U256::from(retrived)).unwrap();
+        evm.stack.push(x).unwrap();
     }
-}
-
-pub fn mstore(evm: &mut Evm) {
-    let offset = evm.stack.pop().unwrap();
-    let value = evm.stack.pop().unwrap();
-
-    evm.memory.store_word(offset.as_limbs()[0] as usize, value);
+    evm.pc += 1;
 }
