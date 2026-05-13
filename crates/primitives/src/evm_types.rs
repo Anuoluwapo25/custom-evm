@@ -4,6 +4,8 @@
 use alloy::primitives::{Address, U256};
 use std::collections::HashMap;
 
+pub type SlotStorage = HashMap<U256, U256>;
+
 #[derive(Debug, Clone, Default)]
 pub struct Transaction {
     pub from: Address,
@@ -32,6 +34,7 @@ pub struct EvmAccount {
     pub balance: U256,
     pub nonce: U256,
     pub code: Vec<u8>,
+    pub slots: SlotStorage,
 }
 
 #[derive(Debug, Clone, Default)]

@@ -4,18 +4,21 @@ use crate::Evm;
 
 pub fn pop(evm: &mut Evm) {
     evm.stack.pop().unwrap();
+    evm.pc += 1;
 }
 
 pub fn mload(evm: &mut Evm) {
     let offset = evm.stack.pop().unwrap().as_limbs()[0] as usize;
     let value = evm.memory.load_word(offset);
     evm.stack.push(value).unwrap();
+    evm.pc += 1;
 }
 
 pub fn mstore(evm: &mut Evm) {
     let offset = evm.stack.pop().unwrap().as_limbs()[0] as usize;
     let value = evm.stack.pop().unwrap();
     evm.memory.store_word(offset, value);
+    evm.pc += 1;
 }
 
 pub fn mstore8(evm: &mut Evm) {
@@ -23,9 +26,11 @@ pub fn mstore8(evm: &mut Evm) {
     let value = evm.stack.pop().unwrap();
     let byte = value.to_be_bytes::<32>()[31];
     evm.memory.store_byte(offset, byte);
+    evm.pc += 1;
 }
 
 pub fn msize(evm: &mut Evm) {
     let size = evm.memory.len();
     evm.stack.push(U256::from(size)).unwrap();
+    evm.pc += 1;
 }

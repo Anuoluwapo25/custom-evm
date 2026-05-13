@@ -2,21 +2,22 @@ use alloy::primitives::U256;
 
 use crate::Evm;
 
-/// PUSH0: push 0 onto stack
+/// PUSH0: push literal 0 onto stack.
 pub fn push0(evm: &mut Evm) {
     evm.stack.push(U256::ZERO).unwrap();
     evm.pc += 1;
 }
 
-/// Generic PUSH: reads `n` bytes from memory after pc, pushes as big-endian U256.
-pub fn push_n(evm: &mut Evm, n: usize) {
-    evm.pc += 1;
+/// PUSH1..PUSH32: read `n` immediate bytes after the opcode, push as big-endian U256.
+/// The opcode byte is at evm.pc; data starts at evm.pc + 1.
+fn push_n(evm: &mut Evm, n: usize) {
+    let data_start = evm.pc + 1;
     let mut buf = [0u8; 32];
     for i in 0..n {
-        buf[32 - n + i] = evm.memory.load_byte(evm.pc + i);
+        buf[32 - n + i] = evm.memory.load_byte(data_start + i);
     }
     evm.stack.push(U256::from_be_bytes(buf)).unwrap();
-    evm.pc += n;
+    evm.pc += 1 + n; // opcode byte + n data bytes
 }
 
 pub fn push1(evm: &mut Evm) { push_n(evm, 1); }
@@ -52,7 +53,7 @@ pub fn push30(evm: &mut Evm) { push_n(evm, 30); }
 pub fn push31(evm: &mut Evm) { push_n(evm, 31); }
 pub fn push32(evm: &mut Evm) { push_n(evm, 32); }
 
-/// DUP: duplicate the nth stack item (1-indexed from top) onto the top.
+/// DUP1..DUP16: copy the nth stack item (1 = top) to the top.
 fn dup_n(evm: &mut Evm, n: usize) {
     let val = evm.stack.peek(n - 1).unwrap();
     evm.stack.push(val).unwrap();
@@ -76,7 +77,7 @@ pub fn dup14(evm: &mut Evm) { dup_n(evm, 14); }
 pub fn dup15(evm: &mut Evm) { dup_n(evm, 15); }
 pub fn dup16(evm: &mut Evm) { dup_n(evm, 16); }
 
-/// SWAP: swap top with nth item below top (SWAP1 swaps top with 2nd, etc.)
+/// SWAP1..SWAP16: swap the top with the (n+1)th stack item.
 fn swap_n(evm: &mut Evm, n: usize) {
     evm.stack.swap_top(n).unwrap();
     evm.pc += 1;

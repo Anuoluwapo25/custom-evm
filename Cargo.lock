@@ -1379,6 +1379,11 @@ dependencies = [
 [[package]]
 name = "evm"
 version = "0.1.0"
+dependencies = [
+ "alloy",
+ "evm_core",
+ "primitives",
+]
 
 [[package]]
 name = "evm_core"
